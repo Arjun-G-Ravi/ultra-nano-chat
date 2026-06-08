@@ -1,0 +1,1 @@
+Making an even smaller version of Andrej Karpathy's Nanochat
