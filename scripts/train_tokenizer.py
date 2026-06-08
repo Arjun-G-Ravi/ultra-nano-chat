@@ -1,6 +1,8 @@
-import torch
-import pandas
 from collections import Counter
+
+
+def format_token(token):
+    return token.encode('unicode_escape').decode('ascii')
 
 with open('data/validation.txt') as f:
     text = f.read()
@@ -37,8 +39,10 @@ while vocab_ct < vocab_size:
     l2 = len(tokens)
 
     vocab_ct += 1
-    print(tokens)
+    print()
+    print(vocab)
     assert l1 == int(counter.most_common(1)[0][1])+l2, 'wrong count'
 
 with open('out/tokenizeer.txt', 'w') as f:
-    f.write(str(vocab))
+    for token, idx in sorted(vocab.items(), key=lambda item: item[1]):
+        f.write(f'{idx}: {format_token(token)}\n')
