@@ -4,18 +4,17 @@ from collections import Counter
 with open("data/validation.txt", encoding="utf-8") as f:
     text = f.read()
 
-text = text[:1000]
+text = text[:10000]
 tokens = list(text)
-vocab = {}
+vocab = {chr(i):i for i in range(32, 127)} # basic characters
 
 for ch in tokens:
     if ch not in vocab:
         vocab[ch] = ord(ch)
 
-print(vocab)
+# all characters now added to vocab
 vocab_ct = max(vocab.values(), default=-1) + 1
-print(vocab_ct)
-vocab_size = 256
+vocab_size = 512 # after BPE
 
 while vocab_ct < vocab_size and len(tokens) > 1:
     combined_tokens = [(tokens[i], tokens[i + 1]) for i in range(len(tokens) - 1)]
@@ -24,7 +23,7 @@ while vocab_ct < vocab_size and len(tokens) > 1:
     merged_token = f"{ch1}{ch2}"
     vocab[merged_token] = vocab_ct
 
-    l1 = len(tokens)
+    l1 = len(tokens) # just for assertion
     merged_tokens = []
     i = 0
     while i < len(tokens):
