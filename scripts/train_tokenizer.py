@@ -1,8 +1,5 @@
+import json
 from collections import Counter
-
-
-def format_token(token):
-    return token.encode('unicode_escape').decode('ascii')
 
 with open('data/validation.txt') as f:
     text = f.read()
@@ -12,9 +9,13 @@ tokens = text.encode('utf-8')
 tokens = list(map(int, tokens))
 # print(tokens)
 vocab = {chr(i):i for i in range(32, 127)} # basic characters
-vocab_ct = 127
-# print('\nvocab', vocab, '\n')
 
+for i in text:
+    if i not in vocab:
+        vocab[i] = ord(i)
+print(vocab)
+vocab_ct = 127
+print(vocab_ct)
 vocab_size = 256
 
 while vocab_ct < vocab_size:
@@ -43,6 +44,5 @@ while vocab_ct < vocab_size:
     print(vocab)
     assert l1 == int(counter.most_common(1)[0][1])+l2, 'wrong count'
 
-with open('out/tokenizeer.txt', 'w') as f:
-    for token, idx in sorted(vocab.items(), key=lambda item: item[1]):
-        f.write(f'{idx}: {format_token(token)}\n')
+with open('out/tokenizer_vocab.json', 'w', encoding='utf-8') as f:
+    json.dump(vocab, f, indent=2, ensure_ascii=False)
