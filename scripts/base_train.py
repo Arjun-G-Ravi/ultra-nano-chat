@@ -151,7 +151,7 @@ print('Loaded model')
 import tiktoken
 enc = tiktoken.get_encoding('gpt2')
 print('cow')
-tokens = enc.encode("Hello, I'm a language model,")
+tokens = enc.encode("I'm batman, my real name is Bruce W")
 tokens = torch.tensor(tokens, dtype=torch.long) # (8,)
 tokens = tokens.unsqueeze(0).repeat(num_return_sequences, 1) # (5, 8)
 x = tokens.to('cuda')
